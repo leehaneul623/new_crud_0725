@@ -1,7 +1,9 @@
 package com.mysite.sbb.controller;
 
 import com.mysite.sbb.domain.Article;
+import com.mysite.sbb.domain.User;
 import com.mysite.sbb.repository.ArticleRepository;
+import com.mysite.sbb.repository.UserRepository;
 import com.mysite.sbb.ut.Ut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +14,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/usr/article")
+@RequestMapping("/article")
 public class ArticleController {
 
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // C 생성 ============================================================
     @RequestMapping("/doWrite")
@@ -34,7 +39,8 @@ public class ArticleController {
         article.setUpdateDate(LocalDateTime.now());
         article.setTitle(title);
         article.setBody(body);
-        article.setUserId(1L);
+        User user = userRepository.findById(1L).get();
+        article.setUser(user);
 
         articleRepository.save(article);
 

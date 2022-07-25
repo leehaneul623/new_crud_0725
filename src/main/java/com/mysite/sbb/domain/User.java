@@ -1,5 +1,6 @@
 package com.mysite.sbb.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime regDate;
-    private LocalDateTime UpDate;
+    private LocalDateTime UpdateDate;
     private String email;
-    private String password;
     private String name;
+
+    @JsonIgnore
+    private String password;
 }
