@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -47,7 +50,7 @@ public class UserController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public String doLogin(String email, String password){
+    public String doLogin(String email, String password, HttpServletRequest req, HttpServletResponse res){
         if(Ut.empty(email)){
             return "이메일을 입력해주세요.";
         }
@@ -64,6 +67,10 @@ public class UserController {
         if(!user.getPassword().equals(password)){
             return "비밀번호가 일치하지 않습니다.";
         }
+
+        Cookie cookie = new Cookie("loginedUserId", user.getId() + "");
+        res.addCookie(cookie);
+
         return "%s님 환영합니다.".formatted(user.getName());
     }
 
